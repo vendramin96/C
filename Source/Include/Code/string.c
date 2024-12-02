@@ -111,7 +111,6 @@ CopyUnsigned32ToBuffer(char *Buffer, uptr BufferSize, u32 Value, int Base, char 
     return Result;
 }
 
-//
 internal_function uptr
 CopySigned64ToBuffer(char *Buffer, uptr BufferSize, s64 Value, int Base, char *Representation)
 {
@@ -197,6 +196,34 @@ CopyFloat64ToBuffer(char *Buffer, uptr BufferSize, f64 Value, int Precision)
         int Digit = (int)Value;
         Result += CopySigned32ToBuffer(Buffer + Result, BufferSize - Result, Digit, 10, Decimal);
         Value -= Digit;
+    }
+
+    return Result;
+}
+
+internal_function bool
+IsSpace(int Character)
+{
+    bool Result = 0;
+
+    char c = (char)Character;
+    if((c == ' ') || (c == '\f') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\v'))
+    {
+        Result = 1;
+    }
+
+    return Result;
+}
+
+internal_function bool
+IsDigit(int Character)
+{
+    bool Result = 0;
+
+    char c = (char)Character;
+    if((c >= '0') && (c <= '9'))
+    {
+        Result = 1;
     }
 
     return Result;

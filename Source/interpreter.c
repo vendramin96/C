@@ -1,55 +1,24 @@
 #include "Header/definitions.h"
 #include "Library/platform.h"
 
+typedef struct
+{
+    char Source[Kilobytes(64)];
+    char *SourcePosition;
+} interpreter;
+
+#include "Code/string.c"
+#include "lexer.c"
+
 int main(int ArgumentCount, char **Argument)
 {
+    interpreter Interpreter = {0};
     file File = {0};
-    PlatformReadFile(&File, "a.txt");
-    PlatformFreeMemory(File.Memory);
+    PlatformReadFile(&File, "lexer1.txt");//@TODO:
+    CopyStringToBuffer(Interpreter.Source, sizeof(Interpreter.Source), File.Memory, File.Size, File.Size);
 
-    Print("Hello, world!\n");
-    Print("Hello, world!\n");
-    Print("Hello, world!\n");
-
-    Print("%c %c %c\n", 'A', 'B', 'C');
-    Print("%c %c %c\n", 'A', 'B', 'C');
-    Print("%c %c %c\n", 'A', 'B', 'C');
-
-    Print("%d %i %d\n", 0, -1, 1234);
-    Print("%d %i %d\n", 0, -1, 1234);
-    Print("%d %i %d\n", 0, -1, 1234);
-
-    Print("%f %f %f\n", 0.0, -1.0, 1.234);
-    Print("%f %f %f\n", 0.0, -1.0, 1.234);
-    Print("%f %f %f\n", 0.0, -1.0, 1.234);
-
-    Print("%lld %lli\n", 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF);
-    Print("%lld %lli\n", 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF);
-    Print("%lld %lli\n", 0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF);
-
-    Print("%llu\n", 0xFFFFFFFFFFFFFFFF);
-    Print("%llu\n", 0xFFFFFFFFFFFFFFFF);
-    Print("%llu\n", 0xFFFFFFFFFFFFFFFF);
-
-    Print("%o %o %o\n", 0, 8, 16);
-    Print("%o %o %o\n", 0, 8, 16);
-    Print("%o %o %o\n", 0, 8, 16);
-
-    Print("%p %p %p\n", 0, main, &Argument);
-    Print("%p %p %p\n", 0, main, &Argument);
-    Print("%p %p %p\n", 0, main, &Argument);
-
-    Print("%s %s %s\n", "ABC", "DEF", "GHI");
-    Print("%s %s %s\n", "ABC", "DEF", "GHI");
-    Print("%s %s %s\n", "ABC", "DEF", "GHI");
-
-    Print("%u %u %u\n", 0, -1, 1234);   
-    Print("%u %u %u\n", 0, -1, 1234);   
-    Print("%u %u %u\n", 0, -1, 1234);   
-
-    Print("%x %X %x\n", 0, -1, 255);   
-    Print("%x %X %x\n", 0, -1, 255);   
-    Print("%x %X %x\n", 0, -1, 255);   
-
+    token *Token = 0;
+    Lexer(&Interpreter, &Token);
+    
     return 0;
 }
