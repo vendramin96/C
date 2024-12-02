@@ -3,6 +3,10 @@
 
 int main(int ArgumentCount, char **Argument)
 {
+    file File = {0};
+    PlatformReadFile(&File, "a.txt");
+    PlatformFreeMemory(File.Memory);
+
     Print("Hello, world!\n");
     Print("Hello, world!\n");
     Print("Hello, world!\n");
@@ -46,7 +50,6 @@ int main(int ArgumentCount, char **Argument)
     Print("%x %X %x\n", 0, -1, 255);   
     Print("%x %X %x\n", 0, -1, 255);   
     Print("%x %X %x\n", 0, -1, 255);   
-
 
     return 0;
 }
