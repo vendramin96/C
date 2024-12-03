@@ -100,18 +100,22 @@ Lexer(interpreter *Interpreter, token **Token)
             break;
         }
 
-        if(IsDigit(*c))
+        if(IsDigit(*c) || ((c[0] =='-') && IsDigit(c[1])))
         {
-            f64 Value = 0.0;            
-            if(!ReadFloat64(&Value, c))
+            if(!ParseFloat64(c))
             {
-                Log("Invalid float value\n");
                 return Result;
-            }
+            }            
             
+            f64 Value = ReadFloat64(c);
             token *CurrentToken = AllocateToken(Token_Number, Value, Previous, 0);
             Previous = CurrentToken;
             InsertToken(Token, CurrentToken, Index);
+
+            if(*c == '-')
+            {
+                c++;
+            }
             
             while(IsDigit(*c))
             {

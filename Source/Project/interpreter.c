@@ -3,19 +3,24 @@
 
 typedef struct
 {
-    char Source[Kilobytes(64)];
+    char Source[Kilobytes(64)]; //@TODO: Should I put Source/SourcePosition in a separated struct?
     char *SourcePosition;
 } interpreter;
 
 #include "Code/string.c"
 #include "lexer.c"
+#include "parser.c"
 
 int main(int ArgumentCount, char **Argument)
 {
     interpreter Interpreter = {0};
     file File = {0};
     PlatformReadFile(&File, "lexer1.txt");//@TODO:
-    CopyStringToBuffer(Interpreter.Source, sizeof(Interpreter.Source), File.Memory, File.Size, File.Size);
+    CopyStringToBuffer(Interpreter.Source, sizeof(Interpreter.Source), File.Memory, File.Size, File.Size);    
+
+    token *Token = 0;
+    Lexer(&Interpreter, &Token);
+
 
     char *TokenString[] = 
     {
@@ -29,8 +34,6 @@ int main(int ArgumentCount, char **Argument)
         "Token_Operator",
         "Token_Identifier",
     };
-    token *Token = 0;
-    Lexer(&Interpreter, &Token);    
 
     while(Token != 0)
     {
