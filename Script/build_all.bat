@@ -13,5 +13,5 @@ SET common_linker_flags=/DEBUG:FASTLINK /INCREMENTAL:NO /OPT:REF
 
 PUSHD "%project_dir%\Build"
 IF %ERRORLEVEL% == 0 (CL /LD %common_compiler_flags% "%project_dir%\Source\Include\Library\platform.c" /link /EXPORT:PlatformFormatString /EXPORT:PlatformWriteConsole /EXPORT:PlatformAllocateMemory /EXPORT:PlatformFreeMemory /EXPORT:PlatformReadFile %common_linker_flags%)
-IF %ERRORLEVEL% == 0 (CL %common_compiler_flags% "%project_dir%\Source\interpreter.c" /link %common_linker_flags% "platform.lib")
+IF %ERRORLEVEL% == 0 (CL %common_compiler_flags% "%project_dir%\Source\Project\interpreter.c" /link %common_linker_flags% "platform.lib")
 POPD

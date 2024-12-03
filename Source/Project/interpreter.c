@@ -19,6 +19,18 @@ int main(int ArgumentCount, char **Argument)
 
     token *Token = 0;
     Lexer(&Interpreter, &Token);
+
+    while(Token != 0)
+    {
+        Print("Token Type = %d\n", Token->Type);
+
+        if(Token->Type == Token_Number)
+        {
+            Print("Token Value: %d\n", Token->Value);
+        }
+
+        Token = (token *)Token->Next;
+    }
     
     return 0;
 }

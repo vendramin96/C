@@ -1,6 +1,9 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include "Header/definitions.h"
+#include "Library/platform.h"
+
 typedef enum
 {
     Token_Invalid,
