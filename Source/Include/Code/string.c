@@ -228,3 +228,58 @@ IsDigit(int Character)
 
     return Result;
 }
+
+internal_function bool
+ReadFloat64(f64 *Value, char *s)
+{
+    bool Result = 0;
+
+    if(!IsDigit(*s))
+    {
+        Log("Float value should start with a digit\n");
+        return Result;
+    }
+
+    int IntegerCount = 0;
+    int DecimalCount = 0;
+    int DotCount = 0;
+    int IntegerPart = 0;
+    int DecimalPart = 0;
+    for(char *c = s; (*c != '\0') && (IsDigit(*c) || (*c == '.')); c++)
+    {
+        if(*s == '.')
+        {
+            DotCount++;
+            continue;
+        }
+
+        if(!DotCount)
+        {
+            IntegerCount++;
+        }
+        else
+        {
+            DecimalCount++;
+        }        
+
+        if(!DotCount)
+        {
+            IntegerPart = (IntegerPart * 10) + (*c - '0');
+        }
+        else
+        {
+            DecimalPart = (DecimalPart * 10) + (*c - '0');
+        }
+    }
+    
+    *Value = (f64)DecimalPart;
+    for(int Index = 0; Index < DecimalCount; Index++)
+    {
+        *Value /= 10.0;
+    }
+    
+    *Value += (f64)IntegerPart;
+
+    Result = (IntegerCount >= 1) && (!DotCount || (DotCount == 1)) && (DecimalCount >= 0);
+    return Result;
+}

@@ -17,16 +17,28 @@ int main(int ArgumentCount, char **Argument)
     PlatformReadFile(&File, "lexer1.txt");//@TODO:
     CopyStringToBuffer(Interpreter.Source, sizeof(Interpreter.Source), File.Memory, File.Size, File.Size);
 
+    char *TokenString[] = 
+    {
+        "Token_Invalid",
+        "Token_Number",
+        "Token_Plus",
+        "Token_Minus",
+        "Token_Star",
+        "Token_Slash",
+        "Token_Keyword",
+        "Token_Operator",
+        "Token_Identifier",
+    };
     token *Token = 0;
-    Lexer(&Interpreter, &Token);
+    Lexer(&Interpreter, &Token);    
 
     while(Token != 0)
     {
-        Print("Token Type = %d\n", Token->Type);
+        Print("Token Type = %s\n", TokenString[Token->Type]);
 
         if(Token->Type == Token_Number)
         {
-            Print("Token Value: %d\n", Token->Value);
+            Print("Token Value: %f\n", Token->Value);
         }
 
         Token = (token *)Token->Next;

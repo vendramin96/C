@@ -40,8 +40,18 @@ InsertToken(token **Head, token *Token, int Index)
 {
     token *Result = 0;
 
-    bool WasFound = 0;
     token *Current = *Head;
+    if(!*Head)
+    {
+        *Head = Token;
+        (*Head)->Previous = 0;
+        (*Head)->Next = 0;
+        Result = *Head;
+        return Result;
+    }
+
+    bool WasFound = 0;
+    
     token *LastToken = *Head;
     for(int I = 0; Current != 0; I++)
     {
@@ -65,7 +75,8 @@ InsertToken(token **Head, token *Token, int Index)
         Token->Previous = 0;
         Token->Next = 0;        
     }
-    
+
+    Result = Token;    
     return Result;
 }
 
@@ -91,11 +102,21 @@ Lexer(interpreter *Interpreter, token **Token)
 
         if(IsDigit(*c))
         {
-            f64 Value = 0.0; //@TODO:
+            f64 Value = 0.0;            
+            if(!ReadFloat64(&Value, c))
+            {
+                Log("Invalid float value\n");
+                return Result;
+            }
+            
             token *CurrentToken = AllocateToken(Token_Number, Value, Previous, 0);
             Previous = CurrentToken;
             InsertToken(Token, CurrentToken, Index);
-            c++;
+            
+            while(IsDigit(*c))
+            {
+                c++;
+            }
         }
         else if(*c == '+')
         {
